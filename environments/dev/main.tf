@@ -1,30 +1,139 @@
-# Development Main Configuration
-# module "key_pair" {
-#   source   = "../../modules/key_pair"
-#   key_name = "poc-app-keypair"
-# }
-
-# module "asg" {
-#   source           = "../../modules/asg"
-#   project_name     = "poc-app"
-#   environment      = "dev"
-#   ami_id           = "ami-0bb84b8ffd87024d8"
-#   instance_type    = "t3.micro"
-#   key_name         = module.key_pair.key_name
-#   security_groups  = ["sg-0313d8ec311c85d71"]
-#   min_size         = 1
-#   max_size         = 5
-#   desired_capacity = 2
-#   subnets          = ["subnet-063ccd7796c26e6a6", "subnet-0a14a8407ecc5dc25"]
-# }
-
-module "qrpush_codedeploy" {
-  source              = "../../modules/code_deploy"
-  region              = "us-east-1"
-  application_name    = "qrpush"
-  deployment_group_name = "qrpush-deployment-group"
-  service_role_arn    = "arn:aws:iam::123456789012:role/CodeDeployServiceRole"
-  ec2_tag_key         = "Name"
-  ec2_tag_value       = "qrpush-instance"
-  # alarms              = ["qrpush-deploy-alarm"]
+module "deployment-role" {
+  source = "../../modules/code_deploy/deployment_role"
+  service_role_name = "QrPush-CodeDeployServiceRole"
 }
+
+module "qr-cbsi-proxy-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-cbsi-proxy"
+  deployment_group_name = "qrpush-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-fees-and-charges-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-fees-and-charges"
+  deployment_group_name = "qr-fees-and-charges-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-kafka-logger-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-kafka-logger"
+  deployment_group_name = "qr-kafka-logger-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-limit-check-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-limit-check"
+  deployment_group_name = "qr-limit-check-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-merchant-notification-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-merchant-notification"
+  deployment_group_name = "qr-merchant-notification-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-payment-status-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-payment-status"
+  deployment_group_name = "qr-payment-status-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-payment-verification-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-payment-verification"
+  deployment_group_name = "qr-payment-verification-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-ref-generator-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-ref-generator"
+  deployment_group_name = "qr-ref-generator-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-transaction-control-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-transaction-control"
+  deployment_group_name = "qr-transaction-control-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-transaction-history-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-transaction-history"
+  deployment_group_name = "qr-transaction-history-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+module "qr-transaction-total-codedeploy" {
+  source              = "../../modules/code_deploy/deployment_group"
+  application_name    = "qr-transaction-total"
+  deployment_group_name = "qr-transaction-total-deployment-group"
+  service_role_arn      = module.deployment-role.service_role_arn
+  tags = {
+    Name        = "ec2-Name"
+    InstanceId  = "instanceId"
+    Environment = "development"
+  }
+}
+
+
+
